@@ -1,0 +1,97 @@
+﻿
+@model Car_Rental_Management.ViewModels.CarVM
+
+@{
+    ViewData["Title"] = "Add New Car";
+}
+
+<h2 class="text-primary mb-4">🚗 Add New Car</h2>
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+
+<form asp-action="AddCar" method="post" class="border p-4 rounded bg-light shadow-sm">
+
+    <div class="mb-3">
+        <label asp-for="Car.CarModelID" class="form-label">Select Model</label>
+        <select asp-for="Car.CarModelID" asp-items="Model.CarModelList" class="form-select">
+            <option value="">-- Select Car Model --</option>
+        </select>
+        <span asp-validation-for="Car.CarModelID" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Car.Color" class="form-label"></label>
+        <input asp-for="Car.Color" class="form-control" />
+        <span asp-validation-for="Car.Color" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Car.Mileage" class="form-label"></label>
+        <input asp-for="Car.Mileage" class="form-control" type="number" />
+        <span asp-validation-for="Car.Mileage" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Car.DailyRate" class="form-label"></label>
+        <input asp-for="Car.DailyRate" class="form-control" type="number" step="0.01" />
+        <span asp-validation-for="Car.DailyRate" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Car.ImageUrl" class="form-label">Main Image URL</label>
+        <input asp-for="Car.ImageUrl" class="form-control" placeholder="Main image (required)" />
+        <span asp-validation-for="Car.ImageUrl" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <input asp-for="Car.ImageUrl2" class="form-control" placeholder="Image URL 2 (optional)" />
+        <input asp-for="Car.ImageUrl3" class="form-control mt-1" placeholder="Image URL 3 (optional)" />
+        <input asp-for="Car.ImageUrl4" class="form-control mt-1" placeholder="Image URL 4 (optional)" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Car.VideoUrl" class="form-label">Video URL (YouTube)</label>
+        <input asp-for="Car.VideoUrl" class="form-control" placeholder="Optional YouTube video link" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Car.Description" class="form-label">Description</label>
+        <textarea asp-for="Car.Description" class="form-control" rows="4" placeholder="Car details, special features, etc."></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Car.Status" class="form-label">Availability Status</label>
+        <select asp-for="Car.Status" asp-items="Model.StatusList" class="form-select">
+            <option value="">-- Select Status --</option>
+        </select>
+        <span asp-validation-for="Car.Status" class="text-danger"></span>
+    </div>
+
+    <div class="mt-4">
+        <button type="submit" class="btn btn-success me-2">💾 Save Car</button>
+        <a asp-action="CarList" class="btn btn-secondary">Cancel</a>
+    </div>
+
+</form>
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var modelState in ViewData.ModelState.Values)
+            {
+                foreach (var error in modelState.Errors)
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            }
+        </ul>
+    </div>
+}
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+    

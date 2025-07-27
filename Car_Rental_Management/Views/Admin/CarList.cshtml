@@ -1,0 +1,126 @@
+﻿@model Car_Rental_Management.ViewModels.CarFilterVM
+
+@{
+    ViewData["Title"] = "Car List";
+}
+
+<form method="get" class="mb-4">
+    <div class="row g-3 align-items-center">
+
+        <!-- Car Model filter -->
+        <div class="col-auto">
+            <select asp-for="SelectedCarModelID" asp-items="Model.CarModelList" class="form-select">
+                <option value="">-- All Models --</option>
+            </select>
+        </div>
+
+        <!-- Min Rate filter -->
+        <div class="col-auto">
+            <input asp-for="MinRate" type="number" min="0" step="100" class="form-control" placeholder="Min Rate (LKR)" />
+        </div>
+
+        <!-- Max Rate filter -->
+        <div class="col-auto">
+            <input asp-for="MaxRate" type="number" min="0" step="100" class="form-control" placeholder="Max Rate (LKR)" />
+        </div>
+
+        <!-- Status filter -->
+        <div class="col-auto">
+            <select asp-for="Status" asp-items="Model.StatusList" class="form-select">
+                <option value="">-- All Status --</option>
+            </select>
+        </div>
+
+        <!-- Keyword filter -->
+        <div class="col-auto">
+            <input asp-for="Keyword" class="form-control" placeholder="Keyword in description" />
+        </div>
+
+        <!-- Submit button -->
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </div>
+    </div>
+</form>
+
+<a asp-controller="Admin" asp-action="AddCar" class="btn btn-primary mb-3">
+    <i class="bi bi-plus-circle"></i> Add Car
+</a>
+
+
+<table class="table table-bordered table-striped shadow-sm">
+    <thead class="table-dark">
+        <tr>
+            <th>Image</th>
+
+            <!-- Sortable Model header -->
+            <th>
+                <a asp-action="CarList"
+                   asp-route-sortOrder="@(Model.SortOrder == "model_desc" ? "" : "model_desc")"
+                   asp-route-SelectedCarModelID="@Model.SelectedCarModelID"
+                   asp-route-MinRate="@Model.MinRate"
+                   asp-route-MaxRate="@Model.MaxRate"
+                   asp-route-Status="@Model.Status"
+                   asp-route-Keyword="@Model.Keyword">
+                    Model
+                    @(Model.SortOrder == "model_desc" ? "▼" : "▲")
+                </a>
+            </th>
+
+            <th>Color</th>
+            <th>Mileage</th>
+
+            <!-- Sortable Rate header -->
+            <th>
+                <a asp-action="CarList"
+                   asp-route-sortOrder="@(Model.SortOrder == "rate_asc" ? "rate_desc" : "rate_asc")"
+                   asp-route-SelectedCarModelID="@Model.SelectedCarModelID"
+                   asp-route-MinRate="@Model.MinRate"
+                   asp-route-MaxRate="@Model.MaxRate"
+                   asp-route-Status="@Model.Status"
+                   asp-route-Keyword="@Model.Keyword">
+                    Rate (LKR/Day)
+                    @(Model.SortOrder == "rate_asc" ? "▲" : Model.SortOrder == "rate_desc" ? "▼" : "")
+                </a>
+            </th>
+
+            <th>Status</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var car in Model.CarList)
+        {
+            <tr>
+                <td>
+                    @if (!string.IsNullOrEmpty(car.ImageUrl))
+                    {
+                        <img src="@car.ImageUrl" alt="Car Image" style="width: 100px; height: auto;" />
+                    }
+                    else
+                    {
+                        <span>No image</span>
+                    }
+                </td>
+                <td>@car.CarModel?.ModelName</td>
+                <td>@car.Color</td>
+                <td>@car.Mileage km</td>
+                <td>@car.DailyRate.ToString("N0")</td>
+                <td>
+                    <span class="badge @(car.Status == "Available" ? "bg-success" : "bg-warning")">
+                        @car.Status
+                    </span>
+                </td>
+                <td>@car.Description</td>
+                
+                <td>
+                    <a asp-action="EditCar" asp-route-id="@car.CarID" class="btn btn-sm btn-warning">Edit</a>
+                    <a asp-action="DeleteCar" asp-route-id="@car.CarID" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+
+
+    </tbody>
+</table>

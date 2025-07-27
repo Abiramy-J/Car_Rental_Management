@@ -1,8 +1,8 @@
 ﻿using System;
 
-public class Class1
+public class Location
 {
-	public Class1()
-	{
-	}
+    public Location()
+    {
+    }
 }

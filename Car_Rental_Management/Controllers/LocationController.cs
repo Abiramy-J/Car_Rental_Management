@@ -1,8 +1,8 @@
 ﻿using System;
 
-public class Class1
+public class LocationController
 {
-	public Class1()
-	{
-	}
+    public LocationController()
+    {
+    }
 }

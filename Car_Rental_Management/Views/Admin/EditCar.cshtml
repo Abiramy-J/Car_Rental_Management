@@ -1,0 +1,53 @@
+﻿@model Car
+@{
+    ViewData["Title"] = "Edit Car";
+    var carModels = ViewBag.CarModels as List<CarModel>;
+}
+
+<h2>Edit Car</h2>
+
+<form asp-action="EditCar" method="post">
+    <input type="hidden" asp-for="CarID" />
+
+    <div class="form-group">
+        <label>Model</label>
+        <select asp-for="CarModelID" class="form-control" asp-items="@(new SelectList(carModels, "CarModelID", "ModelName"))"></select>
+    </div>
+
+    <div class="form-group">
+        <label>Color</label>
+        <input asp-for="Color" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Mileage</label>
+        <input asp-for="Mileage" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Daily Rate</label>
+        <input asp-for="DailyRate" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Status</label>
+        <select asp-for="Status" class="form-control">
+            <option>Available</option>
+            <option>Maintenance</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Description</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label>Image URL</label>
+        <input asp-for="ImageUrl" class="form-control" />
+    </div>
+
+    <br />
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a asp-action="CarList" class="btn btn-secondary">Cancel</a>
+</form>

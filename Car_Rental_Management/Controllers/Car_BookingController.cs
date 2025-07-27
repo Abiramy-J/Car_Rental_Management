@@ -1,8 +1,11 @@
 ﻿using System;
 
-public class Class1
+namespace Car_Rental_Management.Controllers
 {
-	public Class1()
-	{
-	}
+    public class Car_BookingController
+    {
+        public Car_BookingController()
+        {
+        }
+    }
 }

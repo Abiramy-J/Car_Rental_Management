@@ -1,0 +1,36 @@
+﻿@model IEnumerable<CarModel>
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+
+<h2>Car Models</h2>
+
+<a asp-action="Create" class="btn btn-success mb-3">+ Add New Model</a>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Model Name</th>
+            <th>Type</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ModelName</td>
+                <td>@item.Type</td>
+                <td>
+                    <a class="btn btn-warning btn-sm" asp-action="Edit" asp-route-id="@item.CarModelID">Edit</a>
+                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.CarModelID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
