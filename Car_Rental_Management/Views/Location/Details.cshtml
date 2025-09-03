@@ -1,0 +1,25 @@
+﻿@model Car_Rental_Management.Models.Location
+
+@{
+    ViewData["Title"] = "Location Details";
+}
+
+<h2 class="text-primary text-center">Location Details</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-6 offset-md-3 border p-4 bg-light rounded">
+        <dl class="row">
+            <dt class="col-sm-4">Location Name</dt>
+            <dd class="col-sm-8">@Model.LocationName</dd>
+
+            <dt class="col-sm-4">Address</dt>
+            <dd class="col-sm-8">@Model.Address</dd>
+        </dl>
+
+        <div class="text-center mt-3">
+            <a asp-action="Edit" asp-route-id="@Model.LocationId" class="btn btn-primary me-2">Edit</a>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+</div>

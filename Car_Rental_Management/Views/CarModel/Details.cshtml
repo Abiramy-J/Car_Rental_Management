@@ -1,0 +1,34 @@
+﻿@model Car_Rental_Management.ViewModels.CarModelViewModel
+
+@{
+    ViewData["Title"] = "Car Model Details";
+}
+
+<h2 class="text-primary">Car Model Details</h2>
+
+<div class="border p-4 bg-light rounded">
+    <dl class="row">
+        <dt class="col-sm-3">Model Name</dt>
+        <dd class="col-sm-9">@Model.ModelName</dd>
+
+        <dt class="col-sm-3">Manufacturer</dt>
+        <dd class="col-sm-9">@Model.Manufacturer</dd>
+
+        <dt class="col-sm-3">Year</dt>
+        <dd class="col-sm-9">@Model.Year</dd>
+
+        <dt class="col-sm-3">Transmission Type</dt>
+        <dd class="col-sm-9">@Model.TransmissionType</dd>
+
+        <dt class="col-sm-3">Seating Capacity</dt>
+        <dd class="col-sm-9">@Model.SeatingCapacity</dd>
+
+        <dt class="col-sm-3">Price Per Day</dt>
+        <dd class="col-sm-9">Rs. @Model.PricePerDay.ToString("N2")</dd>
+    </dl>
+
+    <div class="form-group text-end mt-3">
+        <a asp-action="Edit" asp-route-id="@Model.CarModelId" class="btn btn-primary">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>

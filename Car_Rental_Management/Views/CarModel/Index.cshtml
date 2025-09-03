@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Car_Rental_Management.ViewModels.CarModelViewModel>
+
+@{
+    ViewData["Title"] = "Car Model List";
+}
+
+<h2 class="text-primary">Car Models</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">+ Add New Car Model</a>
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.First().ModelName)</th>
+            <th>@Html.DisplayNameFor(model => model.First().Manufacturer)</th>
+            <th>@Html.DisplayNameFor(model => model.First().Year)</th>
+            <th>@Html.DisplayNameFor(model => model.First().TransmissionType)</th>
+            <th>@Html.DisplayNameFor(model => model.First().SeatingCapacity)</th>
+            <th>@Html.DisplayNameFor(model => model.First().PricePerDay)</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ModelName</td>
+                    <td>@item.Manufacturer</td>
+                    <td>@item.Year</td>
+                    <td>@item.TransmissionType</td>
+                    <td>@item.SeatingCapacity</td>
+                    <td>Rs. @item.PricePerDay.ToString("N2")</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.CarModelId" class="btn btn-sm btn-primary">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.CarModelId" class="btn btn-sm btn-info">View</a>
+                        <a asp-action="Delete" asp-route-id="@item.CarModelId" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7" class="text-center text-muted">No car models available.</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,31 @@
+﻿@model Car_Rental_Management.Models.Payment
+
+@{
+    ViewData["Title"] = "Payment Details";
+}
+
+<h2 class="text-primary mb-4">Payment Details</h2>
+
+<div class="border p-4 bg-light rounded">
+    <dl class="row">
+        <dt class="col-sm-3">Payment ID</dt>
+        <dd class="col-sm-9">@Model.PaymentId</dd>
+
+        <dt class="col-sm-3">Booking ID</dt>
+        <dd class="col-sm-9">@Model.BookingId</dd>
+
+        <dt class="col-sm-3">Amount</dt>
+        <dd class="col-sm-9">Rs. @Model.Amount.ToString("N2")</dd>
+
+        <dt class="col-sm-3">Payment Method</dt>
+        <dd class="col-sm-9">@Model.PaymentMethod</dd>
+
+        <dt class="col-sm-3">Payment Date</dt>
+        <dd class="col-sm-9">@Model.PaymentDate.ToString("dd-MM-yyyy HH:mm")</dd>
+    </dl>
+
+    <div class="text-end mt-3">
+        <a asp-action="Edit" asp-route-id="@Model.PaymentId" class="btn btn-primary">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>

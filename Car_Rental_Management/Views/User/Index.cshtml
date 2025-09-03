@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Car_Rental_Management.Models.Payment>
+
+@{
+    ViewData["Title"] = "Payments List";
+}
+
+<h2 class="text-primary mb-4">Payments</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">+ Add New Payment</a>
+</p>
+
+<table class="table table-striped table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.First().PaymentId)</th>
+            <th>@Html.DisplayNameFor(model => model.First().BookingId)</th>
+            <th>@Html.DisplayNameFor(model => model.First().Amount)</th>
+            <th>@Html.DisplayNameFor(model => model.First().PaymentMethod)</th>
+            <th>@Html.DisplayNameFor(model => model.First().PaymentDate)</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var payment in Model)
+            {
+                <tr>
+                    <td>@payment.PaymentId</td>
+                    <td>@payment.BookingId</td>
+                    <td>Rs. @payment.Amount.ToString("N2")</td>
+                    <td>@payment.PaymentMethod</td>
+                    <td>@payment.PaymentDate.ToString("dd-MM-yyyy HH:mm")</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@payment.PaymentId" class="btn btn-sm btn-primary">Edit</a>
+                        <a asp-action="Details" asp-route-id="@payment.PaymentId" class="btn btn-sm btn-info">Details</a>
+                        <a asp-action="Delete" asp-route-id="@payment.PaymentId" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6" class="text-center text-muted">No payments available.</td>
+            </tr>
+        }
+    </tbody>
+</table>

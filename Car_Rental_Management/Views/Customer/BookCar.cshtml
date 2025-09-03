@@ -1,0 +1,39 @@
+﻿@model Car_Rental_Management.Models.CarModal
+
+@{
+    ViewData["Title"] = "Book Car";
+    Layout = "_CustomerLayout";
+}
+
+<h2 class="mt-4 mb-3">Book @Model.Manufacturer @Model.ModelName (@Model.Year)</h2>
+
+<div class="card shadow-sm p-4" style="max-width: 600px;">
+    <form asp-action="BookCar" method="post">
+        <input type="hidden" asp-for="CarModelId" />
+
+        <div class="mb-3">
+            <label class="form-label">Start Date</label>
+            <input type="date" name="startDate" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">End Date</label>
+            <input type="date" name="endDate" class="form-control" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Confirm Booking</button>
+        <a asp-action="ViewCars" class="btn btn-secondary ms-2">Cancel</a>
+    </form>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger mt-3">
+            <ul>
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            </ul>
+        </div>
+    }
+</div>

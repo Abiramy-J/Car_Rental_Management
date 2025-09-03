@@ -1,0 +1,32 @@
+﻿@model Car_Rental_Management.Models.Booking
+
+@{
+    ViewData["Title"] = "Booking Details";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">Booking ID</dt>
+        <dd class="col-sm-10">@Model.BookingId</dd>
+
+        <dt class="col-sm-2">Car Model</dt>
+        <dd class="col-sm-10">@Model.CarModel?.ModelName</dd>
+
+        <dt class="col-sm-2">Customer Name</dt>
+        <dd class="col-sm-10">@Model.Customer?.Name</dd>
+
+        <dt class="col-sm-2">Start Date</dt>
+        <dd class="col-sm-10">@Model.StartDate.ToString("yyyy-MM-dd")</dd>
+
+        <dt class="col-sm-2">End Date</dt>
+        <dd class="col-sm-10">@Model.EndDate.ToString("yyyy-MM-dd")</dd>
+
+        <dt class="col-sm-2">Total Price</dt>
+        <dd class="col-sm-10">@Model.TotalPrice.ToString("C")</dd>
+    </dl>
+</div>
+
+<a asp-action="Edit" asp-route-id="@Model.BookingId" class="btn btn-warning">Edit</a>
+<a asp-action="Index" class="btn btn-secondary">Back to List</a>

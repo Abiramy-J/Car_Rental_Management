@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Customer Dashboard";
+    Layout = "_CustomerLayout";  // Use your customer layout here
+}
+
+<div class="container mt-4">
+    <h2>Welcome to Your Dashboard!</h2>
+    <p>Manage your car bookings and explore available cars easily.</p>
+
+    <div class="row mt-4">
+        <div class="col-md-6 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Available Cars</h5>
+                    <p class="card-text">Browse all cars available for rent.</p>
+                    <a asp-controller="Customer" asp-action="ViewCars" class="btn btn-primary">View Cars</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">My Bookings</h5>
+                    <p class="card-text">Check your current and past car bookings.</p>
+                    <a asp-controller="Customer" asp-action="MyBookings" class="btn btn-primary">View Bookings</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

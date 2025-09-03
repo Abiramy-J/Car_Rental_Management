@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Car_Rental_Management.Models.Location>
+
+@{
+    ViewData["Title"] = "Locations";
+}
+
+<h2 class="text-primary text-center">Locations</h2>
+<hr />
+
+<p class="text-center">
+    <a asp-action="Create" class="btn btn-success">+ Add New Location</a>
+</p>
+
+<table class="table table-bordered table-striped table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().LocationName)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Address)</th>
+            <th style="width: 200px;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var location in Model)
+            {
+                <tr>
+                    <td>@location.LocationName</td>
+                    <td>@location.Address</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@location.LocationId" class="btn btn-sm btn-primary me-1">Edit</a>
+                        <a asp-action="Details" asp-route-id="@location.LocationId" class="btn btn-sm btn-info me-1">View</a>
+                        <a asp-action="Delete" asp-route-id="@location.LocationId" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="3" class="text-center text-muted">No locations available.</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,8 +1,17 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations;
 
-public class Class1
+namespace Car_Rental_Management.Models
 {
-	public Class1()
-	{
-	}
+    public class Location
+    {
+        [Key]
+        public int LocationId { get; set; }
+
+        [Required(ErrorMessage = "Location name is required")]
+        [MaxLength(100)]
+        public string LocationName { get; set; }
+
+        [MaxLength(100)]
+        public string Address { get; set; }
+    }
 }
