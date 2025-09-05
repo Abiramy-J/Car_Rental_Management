@@ -1,0 +1,150 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+<style>
+    body {
+        background: #F1F5F9;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 220px;
+        background: linear-gradient(180deg, #1E3A8A, #2563EB);
+        color: #fff;
+        padding-top: 20px;
+    }
+
+        .sidebar h4 {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .sidebar .nav-link {
+            color: #E2E8F0;
+            font-size: 15px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            transition: 0.3s;
+        }
+
+            .sidebar .nav-link i {
+                margin-right: 12px;
+                font-size: 18px;
+            }
+
+            .sidebar .nav-link:hover {
+                background: rgba(255, 255, 255, 0.2);
+                border-radius: 8px;
+                color: white;
+                padding-left: 25px;
+            }
+
+    /* Main */
+    .main-content {
+        margin-left: 220px;
+        padding: 30px;
+    }
+
+    /* Header */
+    .dashboard-header {
+        background: linear-gradient(90deg, #2563EB, #7C3AED);
+        color: white;
+        padding: 25px;
+        border-radius: 12px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    /* Stat Cards */
+    .card {
+        border: none;
+        border-radius: 16px;
+        padding: 20px;
+        color: white;
+        height: 150px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        transition: 0.3s ease-in-out;
+        backdrop-filter: blur(10px);
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .card .icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+    .bg-blue {
+        background: linear-gradient(135deg, #2563EB, #1E40AF);
+    }
+
+    .bg-green {
+        background: linear-gradient(135deg, #16A34A, #065F46);
+    }
+
+    .bg-orange {
+        background: linear-gradient(135deg, #F59E0B, #B45309);
+    }
+</style>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <h4>⚙ Admin Panel</h4>
+    <ul class="nav flex-column">
+        <li class="nav-item"><a class="nav-link" href="@Url.Action("Dashboard", "Admin")"><i class="fa fa-home"></i> Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="@Url.Action("AddCar", "Admin")"><i class="fa fa-plus"></i> Add Car</a></li>
+        <li class="nav-item"><a class="nav-link" href="@Url.Action("CarList", "Admin")"><i class="fa fa-car"></i> Manage Cars</a></li>
+        <li class="nav-item"><a class="nav-link" href="@Url.Action("Index", "CarModel")"><i class="fa fa-tags"></i> Manage Models</a></li>
+        <li class="nav-item"><a class="nav-link" href="@Url.Action("Index", "Booking")"><i class="fa fa-book"></i> Bookings</a></li>
+        <li class="nav-item"><a class="nav-link" href="@Url.Action("Index", "Location")"><i class="fa fa-location-dot"></i> Locations</a></li>
+        <li class="nav-item"><a class="nav-link" href="@Url.Action("Index", "User")"><i class="fa fa-users"></i> Users</a></li>
+    </ul>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+    <div class="dashboard-header">
+        <h2>👋 Welcome back, Admin!</h2>
+        <p>Here’s what’s happening with your car rentals today.</p>
+    </div>
+
+    <!-- Stats -->
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card bg-blue text-center shadow">
+                <div class="icon"><i class="fa fa-car"></i></div>
+                <h5>Total Cars</h5>
+                <h2>@ViewBag.TotalCars</h2>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card bg-green text-center shadow">
+                <div class="icon"><i class="fa fa-check-circle"></i></div>
+                <h5>Available Cars</h5>
+                <h2>@ViewBag.AvailableCars</h2>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card bg-orange text-center shadow">
+                <div class="icon"><i class="fa fa-calendar-check"></i></div>
+                <h5>Bookings</h5>
+                <h2>--</h2>
+            </div>
+        </div>
+    </div>
+</div>

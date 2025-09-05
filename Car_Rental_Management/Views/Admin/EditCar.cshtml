@@ -1,10 +1,10 @@
 ﻿@model Car
 @{
-    ViewData["Title"] = "Edit Car";
+    ViewData["Title"] = "Edit Car🔁❗";
     var carModels = ViewBag.CarModels as List<CarModel>;
 }
 
-<h2>Edit Car</h2>
+<h2>Edit Car❗</h2>
 
 <form asp-action="EditCar" method="post">
     <input type="hidden" asp-for="CarID" />
@@ -45,6 +45,21 @@
     <div class="form-group">
         <label>Image URL</label>
         <input asp-for="ImageUrl" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Image URL2</label>
+        <input asp-for="ImageUrl2" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Image URL3</label>
+        <input asp-for="ImageUrl3" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Image URL4</label>
+        <input asp-for="ImageUrl4" class="form-control" />
     </div>
 
     <br />

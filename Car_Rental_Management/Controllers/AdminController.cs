@@ -194,4 +194,31 @@ public class AdminController : Controller
 
     [Required]
     public string Description { get; set; }
+
+
+    // GET: Admin/Dashboard
+    public IActionResult Dashboard()
+    {
+        // Collect statistics for dashboard
+        var totalCars = _context.Cars.Count();
+        var availableCars = _context.Cars.Count(c => c.Status == "Available");
+        //var totalBookings = _context.Bookings.Count();
+        //var totalCustomers = _context.Users.Count(u => u.Role == "Customer");
+
+        // Pass data to View via ViewBag
+        ViewBag.TotalCars = totalCars;
+        ViewBag.AvailableCars = availableCars;
+        //ViewBag.TotalBookings = totalBookings;
+        // ViewBag.TotalCustomers = totalCustomers;
+
+        // (Optional) Recent Bookings - last 5
+        //var recentBookings = _context.Bookings
+        //    .OrderByDescending(b => b.BookingDate)
+        //    .Take(5)
+        //    .ToList();
+
+        //ViewBag.RecentBookings = recentBookings;
+
+        return View();
+    }
 }

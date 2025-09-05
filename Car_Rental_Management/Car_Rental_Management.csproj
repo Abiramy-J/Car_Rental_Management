@@ -7,9 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Booking\" />
-    <Folder Include="Models\Car\" />
-    <Folder Include="Models\User\" />
+    <Compile Remove="Models\Booking\**" />
+    <Compile Remove="Models\Car\**" />
+    <Compile Remove="Models\User\**" />
+    <Content Remove="Models\Booking\**" />
+    <Content Remove="Models\Car\**" />
+    <Content Remove="Models\User\**" />
+    <EmbeddedResource Remove="Models\Booking\**" />
+    <EmbeddedResource Remove="Models\Car\**" />
+    <EmbeddedResource Remove="Models\User\**" />
+    <None Remove="Models\Booking\**" />
+    <None Remove="Models\Car\**" />
+    <None Remove="Models\User\**" />
   </ItemGroup>
 
   <ItemGroup>
