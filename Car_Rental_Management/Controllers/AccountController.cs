@@ -1,7 +1,9 @@
 ﻿using Car_Rental_Management.Data;
 using Car_Rental_Management.Models;
-using Microsoft.AspNetCore.Mvc;
+using Car_Rental_Management.ViewModels;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,81 +17,109 @@ namespace Car_Rental_Management.Controllers
         {
             _db = db;
         }
-
-        // GET: Account/Login
+        // GET: /Account/Login
         public IActionResult Login()
         {
             return View();
         }
 
-        // POST: Account/Login
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Login(string email, string password)
-        {
-            // Trim spaces
-            email = email?.Trim();
-            password = password?.Trim();
+        // POST: /Account/Login
+        //[HttpPost]
+        //public IActionResult Login(string username, string password)
+        //{
+        //    var user = _context.Users.FirstOrDefault(u => u.Username == username && u.Password == password);
+        //    if (user != null)
+        //    {
+        //        HttpContext.Session.SetInt32("UserID", user.UserID);
+        //        HttpContext.Session.SetString("Role", user.Role);
 
-            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
-            {
-                ViewBag.Error = "Please enter both email and password.";
-                return View();
-            }
+        //        if (user.Role == "Admin")
+        //            return RedirectToAction("Dashboard", "Admin");
+        //        else
+        //            return RedirectToAction("Dashboard", "Customer");
+        //    }
 
-            // Check database
-            var customer = _db.Customers
-                .AsEnumerable()  // fetch into memory for case-insensitive comparison
-                .FirstOrDefault(c => c.Email.Equals(email, StringComparison.OrdinalIgnoreCase)
-                                     && c.Password == password);
+        //    ViewBag.Error = "Invalid username or password!";
+        //    return View();
+        //}
 
-            if (customer != null)
-            {
-                HttpContext.Session.SetInt32("CustomerId", customer.CustomerId);
-                HttpContext.Session.SetString("CustomerEmail", customer.Email);
-                return RedirectToAction("Index", "Customer");
-            }
-
-            ViewBag.Error = "Invalid email or password!";
-            return View();
-        }
-
-
-
-
-        // GET: Account/Register
+        // GET: /Account/Register
         public IActionResult Register()
         {
             return View();
         }
-
-        // POST: Account/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(Customer customer)
+        public IActionResult Login(LoginViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            // Find user by username + password (later replace with hashing!)
+            var user = _db.Users
+                .FirstOrDefault(u => u.Username == model.Username && u.Password == model.Password);
+
+            if (user != null)
+            {
+                // Save session
+                HttpContext.Session.SetInt32("UserId", user.UserId);
+                HttpContext.Session.SetString("Username", user.Username);
+                HttpContext.Session.SetString("Role", user.Role);
+
+                // Role based redirect
+                return user.Role switch
+                {
+                    "Admin" => RedirectToAction("AdminDashboard", "Home"),
+                    "Staff" => RedirectToAction("StaffDashboard", "Home"),
+                    "Customer" => RedirectToAction("CustomerDashboard", "Home"),
+                    _ => RedirectToAction("GeneralDashboard", "Home")
+                };
+            }
+
+            ModelState.AddModelError(string.Empty, "Invalid username or password");
+            return View(model);
+        }
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                // Check if email already exists
-                var existingCustomer = _db.Customers.FirstOrDefault(c => c.Email == customer.Email);
-                if (existingCustomer != null)
+                // Check if username exists
+                if (_db.Users.Any(u => u.Username == model.Username))
                 {
-                    ViewBag.Error = "Email already registered!";
-                    return View(customer);
+                    ModelState.AddModelError("Username", "Username already exists");
+                    return View(model);
                 }
 
-                _db.Customers.Add(customer);
+                // Create new user → default Customer role
+                var user = new User
+                {
+                    Username = model.Username,
+                    Password = model.Password, // ⚠️ plain text for now, later use hashing
+                    Role = "Customer"
+                };
+
+                _db.Users.Add(user);
                 await _db.SaveChangesAsync();
 
-                // Optional: login immediately after registration
-                HttpContext.Session.SetInt32("CustomerId", customer.CustomerId);
-                HttpContext.Session.SetString("CustomerEmail", customer.Email);
+                // Save session after registration
+                HttpContext.Session.SetInt32("UserId", user.UserId);
+                HttpContext.Session.SetString("Username", user.Username);
+                HttpContext.Session.SetString("Role", user.Role);
 
-                return RedirectToAction("Index", "Customer");
+                // Redirect Customer to home dashboard
+                return RedirectToAction("CustomerDashboard", "Home");
             }
 
-            return View(customer);
+            return View(model);
         }
+
 
         // GET: Account/Logout
         public IActionResult Logout()

@@ -25,5 +25,8 @@ namespace Car_Rental_Management.Models
         public bool IsAvailable { get; set; }
 
         public ICollection<Booking> Bookings { get; set; }
+        public string Id { get; internal set; }
+        public string Name { get; internal set; }
+        public int PricePerDay { get; internal set; }
     }
 }

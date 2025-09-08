@@ -24,6 +24,12 @@ namespace Car_Rental_Management.Models
         [Required]
         public DateTime EndDate { get; set; }
 
+        [Required, EmailAddress]
+        public string Email { get; set; }
+
+        [Required, DataType(DataType.Date)]
+        public DateTime PickupDate { get; set; }
+
         [Required]
         [Column(TypeName = "decimal(18,2)")] 
         public decimal TotalPrice { get; set; }

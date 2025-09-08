@@ -1,24 +1,90 @@
-﻿@{
+﻿@model Car_Rental_Management.ViewModels.LoginViewModel
+@{
     ViewData["Title"] = "Login";
 }
 
-<h2>Customer Login</h2>
+<div class="d-flex justify-content-center align-items-center vh-100"
+     style="background: url('/images/car.png') no-repeat center center; background-size: cover;">
 
-<form asp-action="Login" method="post">
-    <div>
-        <label>Email</label><br />
-        <input type="email" name="email" required />
-    </div>
-    <div>
-        <label>Password</label><br />
-        <input type="password" name="password" required />
-    </div>
-    <div style="margin-top:10px;">
-        <button type="submit">Login</button>
-    </div>
+    <div class="card shadow-lg p-5 rounded-4"
+         style="width: 100%; max-width: 380px; backdrop-filter: blur(12px); background: rgba(255, 255, 255, 0.85);">
 
-    @if (ViewBag.Error != null)
-    {
-        <p style="color:red">@ViewBag.Error</p>
+        <h2 class="text-center mb-4 fw-bold text-primary">Login</h2>
+
+        <form asp-action="Login" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+           
+
+            <div class="form-group mb-3">
+                <label asp-for="Username" class="fw-semibold"></label>
+                <div class="input-group">
+                    <span class="input-group-text bg-white"><i class="bi bi-person-fill text-primary"></i></span>
+                    <input asp-for="Username" class="form-control" placeholder="Enter your username" />
+                </div>
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-4">
+                <label asp-for="Password" class="fw-semibold"></label>
+                <div class="input-group">
+                    <span class="input-group-text bg-white"><i class="bi bi-lock-fill text-primary"></i></span>
+                    <input asp-for="Password" class="form-control" placeholder="Enter your password" id="passwordInput" />
+                    <span class="input-group-text bg-white" style="cursor:pointer;" onclick="togglePassword()">
+                        <i class="bi bi-eye-fill text-primary" id="toggleIcon"></i>
+                    </span>
+                </div>
+
+
+                <script>
+                    function togglePassword() {
+                        const input = document.getElementById('passwordInput');
+                        const icon = document.getElementById('toggleIcon');
+                        if (input.type === 'password') {
+                            input.type = 'text';
+                            icon.classList.replace('bi-eye-fill','bi-eye-slash-fill');
+                        } else {
+                            input.type = 'password';
+                            icon.classList.replace('bi-eye-slash-fill','bi-eye-fill');
+                        }
+                    }
+                </script>
+
+
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-2 fw-bold" style="border-radius: 10px; transition: transform 0.2s;">
+                Login
+            </button>
+
+            <style>
+                button:hover {
+                    transform: scale(1.03);
+                }
+            </style>
+
+        </form>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger mt-3 text-center">@ViewBag.Error</div>
+        }
+
+        @* <p class="text-center mt-4">
+            <span class="text-muted">Don't have an account?</span><br />
+            <a asp-controller="Home" asp-action="Register" class="fw-semibold text-decoration-none text-primary">
+                Register here
+            </a>
+        </p> *@
+        <p class="text-center mt-3">
+            Don't have an account?
+            <a asp-controller="Account" asp-action="Register">Register here</a>
+        </p>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-</form>
+}
