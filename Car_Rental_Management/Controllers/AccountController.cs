@@ -57,9 +57,14 @@ namespace Car_Rental_Management.Controllers
                 return View(model);
             }
 
-            // Find user by username + password (later replace with hashing!)
+            var inputUsername = model.Username?.Trim().ToLower();
+            var inputPassword = model.Password?.Trim();
+
+            // Match username in lowercase and password as-is
             var user = _db.Users
-                .FirstOrDefault(u => u.Username == model.Username && u.Password == model.Password);
+                .FirstOrDefault(u =>
+                    u.Username.ToLower() == inputUsername &&
+                    u.Password == inputPassword);
 
             if (user != null)
             {
@@ -68,7 +73,7 @@ namespace Car_Rental_Management.Controllers
                 HttpContext.Session.SetString("Username", user.Username);
                 HttpContext.Session.SetString("Role", user.Role);
 
-                // Role based redirect
+                // Redirect to role-based dashboard
                 return user.Role switch
                 {
                     "Admin" => RedirectToAction("AdminDashboard", "Home"),
@@ -78,9 +83,11 @@ namespace Car_Rental_Management.Controllers
                 };
             }
 
+            // Login failed
             ModelState.AddModelError(string.Empty, "Invalid username or password");
             return View(model);
         }
+
 
 
 

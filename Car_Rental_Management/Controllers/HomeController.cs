@@ -7,11 +7,11 @@ namespace Car_Rental_Management.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _db;
 
-        public HomeController(ApplicationDbContext context)
+        public HomeController(ApplicationDbContext db)
         {
-            _context = context;
+            _db = db;
         }
 
         [HttpGet]
@@ -19,8 +19,8 @@ namespace Car_Rental_Management.Controllers
         {
             return View();
         }
-
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
@@ -28,33 +28,34 @@ namespace Car_Rental_Management.Controllers
                 return View(model);
             }
 
-            var user = _context.Users
+            model.Username = model.Username?.Trim();
+            model.Password = model.Password?.Trim();
+
+            Console.WriteLine("Entered Username: " + model.Username);
+            Console.WriteLine("Entered Password: " + model.Password);
+
+            var user = _db.Users
                 .FirstOrDefault(u => u.Username == model.Username && u.Password == model.Password);
 
             if (user != null)
             {
-                // Role-based dashboard redirect
-                if (user.Role == "Admin")
+                HttpContext.Session.SetInt32("UserId", user.UserId);
+                HttpContext.Session.SetString("Username", user.Username);
+                HttpContext.Session.SetString("Role", user.Role);
+
+                return user.Role switch
                 {
-                    return RedirectToAction("AdminDashboard");
-                }
-                else if (user.Role == "Customer")
-                {
-                    return RedirectToAction("CustomerDashboard");
-                }
-                else if (user.Role == "Staff")
-                {
-                    return RedirectToAction("StaffDashboard");
-                }
-                else
-                {
-                    return RedirectToAction("GeneralDashboard");
-                }
+                    "Admin" => RedirectToAction("AdminDashboard", "Home"),
+                    "Staff" => RedirectToAction("StaffDashboard", "Home"),
+                    "Customer" => RedirectToAction("CustomerDashboard", "Home"),
+                    _ => RedirectToAction("GeneralDashboard", "Home")
+                };
             }
 
-            ViewBag.Error = "Invalid username or password";
+            ModelState.AddModelError(string.Empty, "Invalid username or password");
             return View(model);
         }
+
 
         public IActionResult AdminDashboard() => View();
         public IActionResult CustomerDashboard() => View();
@@ -75,7 +76,7 @@ namespace Car_Rental_Management.Controllers
             if (ModelState.IsValid)
             {
                 // Check if username already exists
-                if (_context.Users.Any(u => u.Username == model.Username))
+                if (_db.Users.Any(u => u.Username == model.Username))
                 {
                     ViewBag.Error = "Username already exists!";
                     return View(model);
@@ -88,8 +89,8 @@ namespace Car_Rental_Management.Controllers
                     Role = "Customer"
                 };
 
-                _context.Users.Add(user);
-                _context.SaveChanges();
+                _db.Users.Add(user);
+                _db.SaveChanges();
 
                 return RedirectToAction("Login");
             }

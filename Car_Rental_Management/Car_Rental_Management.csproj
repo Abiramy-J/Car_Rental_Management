@@ -10,22 +10,26 @@
     <Compile Remove="Models\Booking\**" />
     <Compile Remove="Models\Car\**" />
     <Compile Remove="Models\User\**" />
+    <Compile Remove="Views\NewFolder\**" />
     <Content Remove="Models\Booking\**" />
     <Content Remove="Models\Car\**" />
     <Content Remove="Models\User\**" />
+    <Content Remove="Views\NewFolder\**" />
     <EmbeddedResource Remove="Models\Booking\**" />
     <EmbeddedResource Remove="Models\Car\**" />
     <EmbeddedResource Remove="Models\User\**" />
+    <EmbeddedResource Remove="Views\NewFolder\**" />
     <None Remove="Models\Booking\**" />
     <None Remove="Models\Car\**" />
     <None Remove="Models\User\**" />
+    <None Remove="Views\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\NewFolder\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.8">
       <PrivateAssets>all</PrivateAssets>
